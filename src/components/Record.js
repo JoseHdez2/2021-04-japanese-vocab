@@ -1,10 +1,4 @@
-import {
-  Badge,
-  Button,
-  Tooltip,
-  Popover,
-  OverlayTrigger
-} from "react-bootstrap";
+import { Badge, Button, Tooltip, Popover, OverlayTrigger } from "react-bootstrap";
 import { format } from "date-fns";
 
 export const Record = ({ record, onDelete }) => (
@@ -35,9 +29,7 @@ export const RecordDate = ({ date }) => (
   <span>
     <OverlayTrigger
       key={`${date.getTime()}-overlay`}
-      overlay={
-        <Tooltip id={`tooltip`}>{format(date, "y-MM-dd H:mm:ss.SS")}</Tooltip>
-      }
+      overlay={<Tooltip id={`tooltip`}>{format(date, "y-MM-dd H:mm:ss.SS")}</Tooltip>}
     >
       <Badge variant="primary">{format(date, "H:mm:ss.SS")}</Badge>
     </OverlayTrigger>
@@ -54,10 +46,7 @@ export const RecordSetup = ({ setup }) => {
         placement="left"
         overlay={<Popover id={`tooltip`}>{target}</Popover>}
       >
-        <Badge
-          variant={setup.value ? "success" : "secondary"}
-          style={{ overflow: "hidden" }}
-        >
+        <Badge variant={setup.value ? "success" : "secondary"} style={{ overflow: "hidden" }}>
           {targetShort}
         </Badge>
       </OverlayTrigger>
@@ -65,6 +54,4 @@ export const RecordSetup = ({ setup }) => {
 };
 
 const limitStr = (str, length) =>
-  str.length <= length
-    ? str
-    : `${str.substr(0, length / 2 - 1)}..${str.substr(-length / 2 + 1)}`;
+  str.length <= length ? str : `${str.substr(0, length / 2 - 1)}..${str.substr(-length / 2 + 1)}`;
