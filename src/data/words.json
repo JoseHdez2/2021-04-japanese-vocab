@@ -1,0 +1,17 @@
+[
+  { "id": 1, "word": "私", "hiragana": "わたし", "meaning": "I", "type": "noun" },
+  { "id": 2, "word": "犬", "hiragana": "いぬ", "meaning": "dog", "type": "noun" },
+  { "id": 3, "word": "家", "hiragana": "いえ", "meaning": "house", "type": "noun" },
+  { "id": 4, "word": "風邪", "hiragana": "か.ぜ", "meaning": "cold (illness)", "type": "noun" },
+  { "id": 5, "word": "山", "hiragana": "やま", "meaning": "mountain", "type": "noun" },
+  { "id": 6, "word": "猫", "hiragana": "ねこ", "meaning": "cat", "type": "noun" },
+  { "id": 7, "word": "人", "hiragana": "ひと", "meaning": "person", "type": "noun" },
+  { "id": 8, "word": "動物", "hiragana": "どう.ぶつ", "meaning": "animal", "type": "noun" },
+  { "id": 9, "word": "桃", "hiragana": "もも", "meaning": "peach", "type": "noun" },
+  { "id": 10, "word": "雨", "hiragana": "あめ", "meaning": "rain", "type": "noun" },
+  { "id": 11, "word": "動く", "hiragana": "うご.く", "meaning": "to move", "type": "verb" },
+  { "id": 12, "word": "早い", "hiragana": "はや.い", "meaning": "fast", "type": "adjective" },
+  { "id": 13, "word": "早さ", "hiragana": "はや.さ", "meaning": "speed", "type": "noun" },
+  { "id": 14, "word": "早く", "hiragana": "はや.く", "meaning": "quickly", "type": "adverb" },
+  { "id": 0, "word": "", "hiragana": "", "meaning": "", "type": "" }
+]
