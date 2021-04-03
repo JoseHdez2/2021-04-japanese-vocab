@@ -13,5 +13,6 @@
   { "id": 12, "word": "早い", "hiragana": "はや.い", "meaning": "fast", "type": "adjective" },
   { "id": 13, "word": "早さ", "hiragana": "はや.さ", "meaning": "speed", "type": "noun" },
   { "id": 14, "word": "早く", "hiragana": "はや.く", "meaning": "quickly", "type": "adverb" },
+  { "id": 0, "word": "", "hiragana": "", "meaning": "", "type": "" },
   { "id": 0, "word": "", "hiragana": "", "meaning": "", "type": "" }
 ]

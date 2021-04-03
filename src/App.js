@@ -61,11 +61,15 @@ export default function App() {
   const myMapFn = (item) => <Record record={item} onDelete={deleteItem} />;
   const wordMapFn = (item) => <JapaneseWord item={item} />;
 
+  const wordFilterFn = (item) => item.id !== 0;
+
   return (
     <div className="App" style={{ margin: "1rem auto" }}>
       <Jumbotron>
-        <h1>Learn Japanese</h1>
-        <p>Tool for learning japanese.</p>
+        <h1>Japanese Vocab</h1>
+        <p>
+          Tool for <strong>learning</strong> Japanese vocabulary.
+        </p>
       </Jumbotron>
       <h2>Japanese Words</h2>
       <Card

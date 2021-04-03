@@ -9,7 +9,12 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export const DNDList = ({ items, setItems, mapFunction }) => {
+export const DNDList = ({
+  items,
+  setItems,
+  mapFunction,
+  filterFn = (item) => true
+}) => {
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -48,7 +53,7 @@ export const DNDList = ({ items, setItems, mapFunction }) => {
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {items.map((item, index) => (
+            {items.filter(filterFn).map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
                 {(provided, snapshot) => (
                   <div
