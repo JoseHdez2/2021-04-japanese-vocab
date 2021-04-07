@@ -1,12 +1,10 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
-import { Button, Card, Jumbotron } from "react-bootstrap";
+import { Button, Card, ButtonGroup, Tabs, Tab } from "react-bootstrap";
 import { Record } from "./components/Record";
-import { JapaneseWord } from "./components/JapaneseWord";
-import { DNDList } from "./components/DNDList";
-import { SaveJsonButton } from "./components/SaveJsonButton";
+import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
+
 import { UserCard } from "./components/UserCard";
-import { JapaneseWordCreator } from "./components/JapaneseWordCreator";
 import wordsJson from "./data/words.json";
 import { kanjiCsv } from "./data/kanji.csv";
 import { csv } from "csvtojson";
@@ -28,6 +26,7 @@ if (firebase.apps.length === 0) {
 }
 
 let provider = new firebase.auth.GoogleAuthProvider();
+let db = firebase.firestore();
 
 const loadData = (url) =>
   fetch("https://api.jsonbin.io/b/605512787ffeba41c07e34c2").then((response) => response.json());
@@ -45,7 +44,6 @@ const loadWords = () => new Promise(() => wordsJson);
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
   const [data, setData] = useState(null);
-  const [words, setWords] = useState(null);
   const [items, setItems] = useState(null);
   // ---
   const [credential, setCredential] = useState(null);
@@ -66,19 +64,6 @@ export default function App() {
     }
 
     loadDataAsync();
-  }, []);
-
-  useEffect(() => {
-    setWords(wordsJson);
-    // googleTTS
-    //   .getAudioBase64("Hello World", {
-    //     lang: "en",
-    //     slow: false,
-    //     host: "https://translate.google.com",
-    //     timeout: 10000
-    //   })
-    //   .then(console.log) // base64 text
-    //   .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -119,45 +104,28 @@ export default function App() {
   };
 
   const myMapFn = (item) => <Record record={item} onDelete={deleteItem} />;
-  const wordMapFn = (item) => <JapaneseWord item={item} />;
 
   const wordFilterFn = (item) => item.id !== 0;
 
+  const menuItems = ["jp-words", "kanji", "vidyagames"];
+
   return (
     <div className="App" style={{ margin: "1rem auto" }}>
-      <Jumbotron>
-        <h1>Japanese Vocab</h1>
-        <p>
-          Tool for <strong>learning</strong> Japanese vocabulary.
-        </p>
-      </Jumbotron>
       <Button onClick={signIn}>Sign In</Button>
       <UserCard name={user?.displayName} email={user?.email} photoUrl={user?.photoURL} />
-      <Card>{/* <JapaneseWordCreator /> */}</Card>
-      <h2>Japanese Words</h2>
-      <Card
-        style={{
-          overflowY: "scroll",
-          height: "30rem",
-          width: "80%",
-          margin: "auto"
-        }}
-      >
-        <input style={{ width: "60%", margin: "auto" }}></input>
-        <DNDList items={words || []} setItems={setWords} mapFunction={wordMapFn} />
-      </Card>
-      <h2>Web Interactions</h2>
-      <Card
-        style={{
-          overflowY: "scroll",
-          height: "30rem",
-          width: "80%",
-          margin: "auto"
-        }}
-      >
-        <DNDList items={items || []} setItems={setItems} mapFunction={myMapFn} />
-      </Card>
-      <SaveJsonButton json={items} filename="interactions" />
+
+      <Tabs defaultActiveKey="words" id="tab-menu">
+        <Tab eventKey="words" title="jp words">
+          <JapaneseWordCrud db={db} />
+        </Tab>
+        <Tab eventKey="kanji" title="kanji">
+          lol
+        </Tab>
+        <Tab eventKey="videogames" title="vidyagames">
+          {/* TODO: arbust8 <VideogameList/> */}
+        </Tab>
+      </Tabs>
+      {/* <SaveJsonButton json={items} filename="interactions" /> */}
     </div>
   );
 }
