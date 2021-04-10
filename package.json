@@ -9,6 +9,7 @@
     "csvtojson": "2.0.10",
     "date-fns": "2.19.0",
     "firebase": "8.3.2",
+    "g-i-s": "2.1.6",
     "google-tts-api": "2.0.2",
     "react": "17.0.1",
     "react-beautiful-dnd": "13.0.0",

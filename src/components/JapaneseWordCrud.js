@@ -4,6 +4,7 @@ import { DNDList } from "./DNDList";
 
 export const JapaneseWordCrud = ({ db }) => {
   const [words, setWords] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const [isOld, setOld] = useState(false);
 
   useEffect(() => {
@@ -15,12 +16,18 @@ export const JapaneseWordCrud = ({ db }) => {
     setOld(false);
   }, [isOld]);
 
+  const jpWordFilter = (item) => item?.meaning?.toLowerCase().includes(searchText.toLowerCase());
+
   return (
     <Card style={{ margin: "10px", boxShadow: "5px" }}>
       <h3>Japanese Words</h3>
       <div>
         <span>🔎 Search: </span>
-        <input style={{ width: "60%", margin: "auto" }}></input>
+        <input
+          style={{ width: "60%", margin: "auto" }}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        ></input>
       </div>
       <Card
         style={{
@@ -29,7 +36,12 @@ export const JapaneseWordCrud = ({ db }) => {
           height: "30rem"
         }}
       >
-        <DNDList items={words || []} setItems={setWords} mapFunction={wordMapFn} />
+        <DNDList
+          items={words || []}
+          setItems={setWords}
+          mapFunction={wordMapFn}
+          filterFn={jpWordFilter}
+        />
       </Card>
       <Card style={{ margin: "10px", padding: "10px", background: "#efe" }}>
         <JapaneseWordPostForm db={db} setOld={setOld} />
@@ -51,9 +63,9 @@ const JapaneseWord = ({ item }) => (
 );
 
 const JapaneseWordPostForm = ({ db, setOld }) => {
-  const [word, setWord] = useState(null);
-  const [hiragana, setHiragana] = useState(null);
-  const [meaning, setMeaning] = useState(null);
+  const [word, setWord] = useState("");
+  const [hiragana, setHiragana] = useState("");
+  const [meaning, setMeaning] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();

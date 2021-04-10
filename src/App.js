@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Tabs, Tab } from "react-bootstrap";
 import { Record } from "./components/Record";
 import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
+import { MediaCrud } from "./components/MediaCrud";
 
 import { UserCard } from "./components/UserCard";
 import wordsJson from "./data/words.json";
@@ -10,7 +11,16 @@ import { kanjiCsv } from "./data/kanji.csv";
 import { csv } from "csvtojson";
 import * as googleTTS from "google-tts-api";
 import firebase from "firebase";
+import gis from "g-i-s";
+gis("cats", logResults);
 
+function logResults(error, results) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(JSON.stringify(results, null, "  "));
+  }
+}
 const firebaseConfig = {
   apiKey: "AIzaSyC1p596Mrz_lbwwp2JTT8XC4nhCd4zN94w",
   authDomain: "japanese-vocab-8bb33.firebaseapp.com",
@@ -39,7 +49,7 @@ const loadKanji = () => {
     });
 };
 
-const loadWords = () => new Promise(() => wordsJson);
+// const loadWords = () => new Promise(() => wordsJson);
 
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
@@ -121,7 +131,8 @@ export default function App() {
         <Tab eventKey="kanji" title="kanji">
           lol
         </Tab>
-        <Tab eventKey="videogames" title="vidyagames">
+        <Tab eventKey="media" title="media">
+          <MediaCrud db={db}></MediaCrud>
           {/* TODO: arbust8 <VideogameList/> */}
         </Tab>
       </Tabs>
