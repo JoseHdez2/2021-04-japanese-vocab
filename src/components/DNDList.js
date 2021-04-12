@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ListGroup } from "react-bootstrap";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -9,22 +10,25 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export const DNDList = ({
-  items,
-  setItems,
-  mapFunction,
-  filterFn = (item) => true
-}) => {
+export const DNDList = (props) => (props?.draggable ? DragAndDropList(props) : NotDNDList(props));
+
+const NotDNDList = ({ items, setItems, mapFunction, filterFn = (item) => true }) => {
+  return (
+    <ListGroup>
+      {items.filter(filterFn).map((it) => (
+        <ListGroup.Item>{mapFunction(it)}</ListGroup.Item>
+      ))}
+    </ListGroup>
+  );
+};
+
+const DragAndDropList = ({ items, setItems, mapFunction, filterFn = (item) => true }) => {
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
     }
 
-    const newItems = reorder(
-      items,
-      result.source.index,
-      result.destination.index
-    );
+    const newItems = reorder(items, result.source.index, result.destination.index);
 
     setItems(newItems);
   };
@@ -60,10 +64,7 @@ export const DNDList = ({
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
+                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                   >
                     {mapFunction(item)}
                   </div>

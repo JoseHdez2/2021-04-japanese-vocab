@@ -1,18 +1,18 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Tabs, Tab } from "react-bootstrap";
-import { Record } from "./components/Record";
-import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
-import { MediaCrud } from "./components/MediaCrud";
-
-import { UserCard } from "./components/UserCard";
-import wordsJson from "./data/words.json";
-import { kanjiCsv } from "./data/kanji.csv";
 import { csv } from "csvtojson";
 import * as googleTTS from "google-tts-api";
 import firebase from "firebase";
-import gis from "g-i-s";
-gis("cats", logResults);
+
+import wordsJson from "./data/words.json";
+import { kanjiCsv } from "./data/kanji.csv";
+
+import { Record } from "./components/Record";
+import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
+import { MediaCrud } from "./components/MediaCrud";
+import { Toasts } from "./components/Toasts";
+import { UserCard } from "./components/UserCard";
 
 function logResults(error, results) {
   if (error) {
@@ -22,12 +22,12 @@ function logResults(error, results) {
   }
 }
 const firebaseConfig = {
-  apiKey: "AIzaSyC1p596Mrz_lbwwp2JTT8XC4nhCd4zN94w",
-  authDomain: "japanese-vocab-8bb33.firebaseapp.com",
-  projectId: "japanese-vocab-8bb33",
-  storageBucket: "japanese-vocab-8bb33.appspot.com",
-  messagingSenderId: "845111604595",
-  appId: "1:845111604595:web:da527b97c6014455698106"
+  apiKey: "AIzaSyAkyEWDdY8iifl9KWcGk7nsud2xOBnhxY8",
+  authDomain: "crafting-a6278.firebaseapp.com",
+  projectId: "crafting-a6278",
+  storageBucket: "crafting-a6278.appspot.com",
+  messagingSenderId: "593613973896",
+  appId: "1:593613973896:web:31ce613956d967da68323d"
 };
 // Initialize Firebase
 
@@ -128,14 +128,12 @@ export default function App() {
         <Tab eventKey="words" title="jp words">
           <JapaneseWordCrud db={db} />
         </Tab>
-        <Tab eventKey="kanji" title="kanji">
-          lol
-        </Tab>
+        <Tab eventKey="kanji" title="kanji"></Tab>
         <Tab eventKey="media" title="media">
           <MediaCrud db={db}></MediaCrud>
-          {/* TODO: arbust8 <VideogameList/> */}
         </Tab>
       </Tabs>
+      <Toasts />
       {/* <SaveJsonButton json={items} filename="interactions" /> */}
     </div>
   );

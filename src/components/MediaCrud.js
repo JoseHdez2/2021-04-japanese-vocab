@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import { DNDList } from "./DNDList";
 import { ImageSearch } from "./ImageSearch";
+import { ModalWithButton } from "./ModalWithButton";
 
 export const MediaCrud = ({ db }) => {
   const [mediaWorks, setMediaWorks] = useState(null);
@@ -12,7 +13,13 @@ export const MediaCrud = ({ db }) => {
     db.collection("mediaWorks")
       .get()
       .then((querySnapshot) => {
-        setMediaWorks(querySnapshot.docs.map((doc) => doc.data()));
+        setMediaWorks(
+          querySnapshot.docs.map((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            return data;
+          })
+        );
       });
     setOld(false);
   }, [isOld]);
@@ -101,48 +108,51 @@ const MediaWorkPostForm = ({ db, setOld }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group inline="true" controlId="tangoForm.ControlInput2">
-        <Form.Label>japanese title</Form.Label>
-        <Form.Control
-          placeholder="星のカービィ"
-          value={japaneseTitle}
-          onChange={(e) => setJapaneseTitle(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group inline="true" controlId="tangoForm.ControlInput1">
-        <Form.Label>title</Form.Label>
-        <Form.Control
-          placeholder="Kirby's Dream Land"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group inline="true" controlId="tangoForm.ControlInput2">
-        <Form.Label>literal title</Form.Label>
-        <Form.Control
-          placeholder="Kirby of the Stars"
-          value={japaneseTitle}
-          onChange={(e) => setJapaneseTitle(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group inline="true" controlId="tangoForm.ControlInput3">
-        <Form.Label>cover url</Form.Label>
-        <Form.Control
-          placeholder="https://upload.wikimedia.org/wikipedia/en/c/c2/Kirby_boxart.png"
-          value={coverUrl}
-          onChange={(e) => setCoverUrl(e.target.value)}
-        />
-      </Form.Group>
-      <ImageSearch />
-      {title || japaneseTitle || coverUrl ? (
-        <Button variant="secondary" type="reset">
-          Clear
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="tangoForm.ControlInput2">
+          <Form.Label>japanese title</Form.Label>
+          <Form.Control
+            placeholder="星のカービィ"
+            value={japaneseTitle}
+            onChange={(e) => setJapaneseTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group controlId="tangoForm.ControlInput1">
+          <Form.Label>title</Form.Label>
+          <Form.Control
+            placeholder="Kirby's Dream Land"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group controlId="tangoForm.ControlInput2">
+          <Form.Label>literal title</Form.Label>
+          <Form.Control
+            placeholder="Kirby of the Stars"
+            value={japaneseTitle}
+            onChange={(e) => setJapaneseTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group controlId="tangoForm.ControlInput3">
+          <Form.Label>cover url</Form.Label>
+          <ImageSearch />
+          <Form.Control
+            placeholder="https://upload.wikimedia.org/wikipedia/en/c/c2/Kirby_boxart.png"
+            value={coverUrl}
+            onChange={(e) => setCoverUrl(e.target.value)}
+          />
+        </Form.Group>
+        {title || japaneseTitle || coverUrl ? (
+          <Button variant="secondary" type="reset">
+            Clear
+          </Button>
+        ) : null}{" "}
+        <Button variant="primary" type="submit">
+          Create
         </Button>
-      ) : null}{" "}
-      <Button variant="primary" type="submit">
-        Create
-      </Button>
-    </Form>
+      </Form>
+      <ModalWithButton title="Search Image" />
+    </div>
   );
 };

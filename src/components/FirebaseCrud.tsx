@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { DNDList } from "./DNDList";
 
-export const JapaneseWordCrud = ({ db }) => {
+
+const defaultMapFunction = (item) => <div>{JSON.stringify(item)}</div>;
+
+export const FirebaseCrud = ({ db, collectionName, mapFunction = defaultMapFunction }) => {
   const [words, setWords] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [isOld, setOld] = useState(false);
 
   useEffect(() => {
-    db.collection("words")
+    db.collection(collectionName)
       .get()
       .then((querySnapshot) => {
         setWords(
@@ -45,7 +48,7 @@ export const JapaneseWordCrud = ({ db }) => {
         <DNDList
           items={words || []}
           setItems={setWords}
-          mapFunction={wordMapFn}
+          mapFunction={mapFunction}
           filterFn={jpWordFilter}
         />
       </Card>
@@ -56,30 +59,16 @@ export const JapaneseWordCrud = ({ db }) => {
   );
 };
 
-const wordMapFn = (item) => <JapaneseWord item={item} />;
+const mapFunction = (item) => <div>{JSON.stringify(item)}<div/>;
 
-const JapaneseWord = ({ item }) => (
-  <div key={item.id}>
-    {item.word}
-    {" - "}
-    {!item?.hiragana ? null : (
-      <>
-        (<small> {item.hiragana} </small>){" - "}
-      </>
-    )}
-
-    {item.meaning}
-  </div>
-);
-
-const JapaneseWordPostForm = ({ db, setOld }) => {
+const FirebasePostForm = ({ db, collectionName, schema, setOld }) => {
   const [word, setWord] = useState("");
   const [hiragana, setHiragana] = useState("");
   const [meaning, setMeaning] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    db.collection("words")
+    db.collection(collectionName)
       .add({
         word: word,
         hiragana: hiragana,
