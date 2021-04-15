@@ -12,6 +12,7 @@
     "date-fns": "2.20.2",
     "firebase": "8.3.2",
     "google-tts-api": "2.0.2",
+    "ordinal": "1.0.3",
     "react": "17.0.1",
     "react-beautiful-dnd": "13.0.0",
     "react-bootstrap": "1.5.2",

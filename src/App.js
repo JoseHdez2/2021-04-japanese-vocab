@@ -16,7 +16,7 @@ import { kanjiCsv } from "./data/kanji.csv";
 
 import { Record } from "./components/Record";
 import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
-import { MediaCrud } from "./components/MediaCrud";
+import { MediaCrud } from "./components/crud/MediaCrud";
 import { UserCard } from "./components/UserCard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

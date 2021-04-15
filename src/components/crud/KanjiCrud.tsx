@@ -1,12 +1,13 @@
 import * as React from "react";
 import { FirebaseCrud } from "./base/FirebaseCrud";
+import ordinal from "ordinal";
 
 export const KanjiCrud = ({ db }) => (
   <FirebaseCrud
     db={db}
     datumToListItem={kanjiToListItem}
     collectionName="kanji"
-    schema={kanjiSchema}
+    schema={schema}
   />
 );
 
@@ -14,15 +15,17 @@ const kanjiToListItem = (k: Kanji) => (
   <div>
     {k.character}
     {k.hiragana ? ` - (${k.hiragana})` : null}
+    {k.grade ? ` - (${ordinal(k.grade)} grade)` : null}
   </div>
 );
 
 interface Kanji {
   character: string;
   hiragana?: string;
+  grade?: number;
 }
 
-const kanjiSchema = {
+const schema = {
   title: "Kanji",
   type: "object",
   required: ["character"],
@@ -36,6 +39,11 @@ const kanjiSchema = {
       type: "string",
       title: "Hiragana",
       default: "いま"
+    },
+    grade: {
+      type: "number",
+      title: "Grade",
+      enum: [1, 2, 3, 4, 5, 6]
     }
   }
 };
