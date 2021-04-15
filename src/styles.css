@@ -2,3 +2,15 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+code {
+  color: white;
+  background: gray;
+  padding: 2px 5px;
+}
+
+/* For some reason,
+ Bootstrap buttons don't have margin. */
+.btn {
+  margin: 2px;
+}

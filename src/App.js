@@ -1,6 +1,12 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
-import { Button, Card, ButtonGroup, Tabs, Tab } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  ButtonGroup,
+  Tabs,
+  Tab
+} from "react-bootstrap";
 import { csv } from "csvtojson";
 import * as googleTTS from "google-tts-api";
 import firebase from "firebase";
@@ -11,8 +17,10 @@ import { kanjiCsv } from "./data/kanji.csv";
 import { Record } from "./components/Record";
 import { JapaneseWordCrud } from "./components/JapaneseWordCrud";
 import { MediaCrud } from "./components/MediaCrud";
-import { Toasts } from "./components/Toasts";
 import { UserCard } from "./components/UserCard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { KanjiCrud } from "./components/crud/KanjiCrud";
 
 function logResults(error, results) {
   if (error) {
@@ -22,13 +30,14 @@ function logResults(error, results) {
   }
 }
 const firebaseConfig = {
-  apiKey: "AIzaSyAkyEWDdY8iifl9KWcGk7nsud2xOBnhxY8",
-  authDomain: "crafting-a6278.firebaseapp.com",
-  projectId: "crafting-a6278",
-  storageBucket: "crafting-a6278.appspot.com",
-  messagingSenderId: "593613973896",
-  appId: "1:593613973896:web:31ce613956d967da68323d"
+  apiKey: "AIzaSyC1p596Mrz_lbwwp2JTT8XC4nhCd4zN94w",
+  authDomain: "japanese-vocab-8bb33.firebaseapp.com",
+  projectId: "japanese-vocab-8bb33",
+  storageBucket: "japanese-vocab-8bb33.appspot.com",
+  messagingSenderId: "845111604595",
+  appId: "1:845111604595:web:da527b97c6014455698106"
 };
+
 // Initialize Firebase
 
 if (firebase.apps.length === 0) {
@@ -39,7 +48,9 @@ let provider = new firebase.auth.GoogleAuthProvider();
 let db = firebase.firestore();
 
 const loadData = (url) =>
-  fetch("https://api.jsonbin.io/b/605512787ffeba41c07e34c2").then((response) => response.json());
+  fetch(
+    "https://api.jsonbin.io/b/605512787ffeba41c07e34c2"
+  ).then((response) => response.json());
 
 const loadKanji = () => {
   csv()
@@ -77,7 +88,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    setItems(data?.records.map((item, ind) => new Object({ ...item, id: ind.toString() })));
+    setItems(
+      data?.records.map(
+        (item, ind) =>
+          new Object({ ...item, id: ind.toString() })
+      )
+    );
   }, [data]);
 
   const signIn = () => {
@@ -113,7 +129,9 @@ export default function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const myMapFn = (item) => <Record record={item} onDelete={deleteItem} />;
+  const myMapFn = (item) => (
+    <Record record={item} onDelete={deleteItem} />
+  );
 
   const wordFilterFn = (item) => item.id !== 0;
 
@@ -122,18 +140,27 @@ export default function App() {
   return (
     <div className="App" style={{ margin: "1rem auto" }}>
       <Button onClick={signIn}>Sign In</Button>
-      <UserCard name={user?.displayName} email={user?.email} photoUrl={user?.photoURL} />
+      <UserCard
+        name={user?.displayName}
+        email={user?.email}
+        photoUrl={user?.photoURL}
+      />
 
       <Tabs defaultActiveKey="words" id="tab-menu">
         <Tab eventKey="words" title="jp words">
           <JapaneseWordCrud db={db} />
         </Tab>
-        <Tab eventKey="kanji" title="kanji"></Tab>
+        <Tab eventKey="kanji" title="kanji">
+          <KanjiCrud db={db} />
+        </Tab>
         <Tab eventKey="media" title="media">
           <MediaCrud db={db}></MediaCrud>
         </Tab>
       </Tabs>
-      <Toasts />
+      <ToastContainer
+        hideProgressBar={true}
+        autoClose={3000}
+      />
       {/* <SaveJsonButton json={items} filename="interactions" /> */}
     </div>
   );

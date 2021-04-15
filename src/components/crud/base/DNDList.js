@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { ListGroup } from "react-bootstrap";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable
+} from "react-beautiful-dnd";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -10,25 +14,43 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export const DNDList = (props) => (props?.draggable ? DragAndDropList(props) : NotDNDList(props));
+export const DNDList = (props) =>
+  props?.draggable
+    ? DragAndDropList(props)
+    : NotDNDList(props);
 
-const NotDNDList = ({ items, setItems, mapFunction, filterFn = (item) => true }) => {
+const NotDNDList = ({
+  items,
+  mapFunction,
+  filterFn = (item) => true
+}) => {
   return (
     <ListGroup>
       {items.filter(filterFn).map((it) => (
-        <ListGroup.Item>{mapFunction(it)}</ListGroup.Item>
+        <ListGroup.Item key={it.id}>
+          {mapFunction(it)}
+        </ListGroup.Item>
       ))}
     </ListGroup>
   );
 };
 
-const DragAndDropList = ({ items, setItems, mapFunction, filterFn = (item) => true }) => {
+const DragAndDropList = ({
+  items,
+  setItems,
+  mapFunction,
+  filterFn = (item) => true
+}) => {
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
     }
 
-    const newItems = reorder(items, result.source.index, result.destination.index);
+    const newItems = reorder(
+      items,
+      result.source.index,
+      result.destination.index
+    );
 
     setItems(newItems);
   };
@@ -58,13 +80,20 @@ const DragAndDropList = ({ items, setItems, mapFunction, filterFn = (item) => tr
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {items.filter(filterFn).map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
+              <Draggable
+                key={item.id}
+                draggableId={item.id}
+                index={index}
+              >
                 {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                    style={getItemStyle(
+                      snapshot.isDragging,
+                      provided.draggableProps.style
+                    )}
                   >
                     {mapFunction(item)}
                   </div>

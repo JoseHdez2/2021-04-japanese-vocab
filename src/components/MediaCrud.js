@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
-import { DNDList } from "./DNDList";
+import { DNDList } from "./crud/base/DNDList";
 import { ImageSearch } from "./ImageSearch";
 import { ModalWithButton } from "./ModalWithButton";
 
@@ -24,7 +24,10 @@ export const MediaCrud = ({ db }) => {
     setOld(false);
   }, [isOld]);
 
-  const mediaWorkFilter = (item) => item?.title?.toLowerCase().includes(searchText.toLowerCase());
+  const mediaWorkFilter = (item) =>
+    item?.title
+      ?.toLowerCase()
+      .includes(searchText.toLowerCase());
 
   return (
     <Card style={{ margin: "10px", boxShadow: "5px" }}>
@@ -51,7 +54,13 @@ export const MediaCrud = ({ db }) => {
           filterFn={mediaWorkFilter}
         />
       </Card>
-      <Card style={{ margin: "10px", padding: "10px", background: "#efe" }}>
+      <Card
+        style={{
+          margin: "10px",
+          padding: "10px",
+          background: "#efe"
+        }}
+      >
         <MediaWorkPostForm db={db} setOld={setOld} />
       </Card>
     </Card>
@@ -61,7 +70,13 @@ export const MediaCrud = ({ db }) => {
 const workMapFn = (item) => <MediaWork item={item} />;
 
 const MediaWork = ({ item }) => (
-  <div style={{ display: "grid", gridTemplateColumns: "100px auto" }} key={item.id}>
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "100px auto"
+    }}
+    key={item.id}
+  >
     <img style={{ width: "100px" }} src={item.coverUrl} />
     <div style={{ margin: "auto" }}>
       <h4>{item.japaneseTitle}</h4>
@@ -95,7 +110,10 @@ const MediaWorkPostForm = ({ db, setOld }) => {
         coverUrl: coverUrl
       })
       .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
+        console.log(
+          "Document written with ID: ",
+          docRef.id
+        );
         setTitle("");
         setJapaneseTitle("");
         setLiteralTitle("");
@@ -115,7 +133,9 @@ const MediaWorkPostForm = ({ db, setOld }) => {
           <Form.Control
             placeholder="星のカービィ"
             value={japaneseTitle}
-            onChange={(e) => setJapaneseTitle(e.target.value)}
+            onChange={(e) =>
+              setJapaneseTitle(e.target.value)
+            }
           />
         </Form.Group>
         <Form.Group controlId="tangoForm.ControlInput1">
@@ -131,7 +151,9 @@ const MediaWorkPostForm = ({ db, setOld }) => {
           <Form.Control
             placeholder="Kirby of the Stars"
             value={japaneseTitle}
-            onChange={(e) => setJapaneseTitle(e.target.value)}
+            onChange={(e) =>
+              setJapaneseTitle(e.target.value)
+            }
           />
         </Form.Group>
         <Form.Group controlId="tangoForm.ControlInput3">

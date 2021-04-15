@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { DNDList } from "./DNDList";
+import { DNDList } from "./crud/base/DNDList";
 
 export const JapaneseWordCrud = ({ db }) => {
   const [words, setWords] = useState(null);
